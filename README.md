@@ -30,6 +30,10 @@ To run the unit tests for the agent system, use the following command:
 python3 -m unittest discover tests
 ```
 
+## Integration Test Run
+
 ![Integration Test Run](https://github.com/ahmadhp/web3/blob/feature/add-autonomous-agent-classes/integrationtest.png)
+
+## Unit Test Run
 
 ![Unit Test Run](https://github.com/ahmadhp/web3/blob/feature/add-autonomous-agent-classes/unittests.png)
