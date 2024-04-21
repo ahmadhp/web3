@@ -54,6 +54,7 @@ class AutonomousAgent:
             for recieved_message in self.inbox:
                 await self.handle_message(recieved_message)
                 self.inbox.remove(recieved_message)
+                print(f'removed from inbox {self.agent_id}  {len(self.inbox)}')
             await asyncio.sleep(2)
 
     def stop_behaviors(self):

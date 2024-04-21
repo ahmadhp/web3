@@ -25,3 +25,7 @@ class AgentOrchestrator:
 
     async def run_agents(self):
         await asyncio.gather(*(agent.run_behaviors() for agent in self.agents))
+
+    async def stop_agents(self):
+        for task in asyncio.all_tasks():
+            task.cancel()
