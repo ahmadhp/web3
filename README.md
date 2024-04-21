@@ -28,3 +28,8 @@ This repository contains a Python (3.10) implementation of an autonomous agent s
 To run the unit tests for the agent system, use the following command:
 ```bash
 python3 -m unittest discover tests
+```
+
+![Integration Test Run](https://github.com/ahmadhp/web3/blob/feature/add-autonomous-agent-classes/integrationtest.png)
+
+![Unit Test Run](https://github.com/ahmadhp/web3/blob/feature/add-autonomous-agent-classes/unittests.png)
