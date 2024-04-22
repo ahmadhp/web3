@@ -22,8 +22,12 @@ class TestAgentOrchestrator(unittest.IsolatedAsyncioTestCase):
     async def test_message_passing(self):
         await self.orchestrator.setup_agents([
             {'sender': self.agent1, 'receiver': self.agent2},
-           # {'sender': self.agent2, 'receiver': self.agent1},
         ])
+
+        # validate the agent1 is not running
+        self.assertFalse(self.agent1.is_running)
+        # validate the agent2 is not running
+        self.assertFalse(self.agent2.is_running)
 
         # Create a task to run the agents
         task = asyncio.create_task(self.orchestrator.run_agents())
@@ -32,12 +36,12 @@ class TestAgentOrchestrator(unittest.IsolatedAsyncioTestCase):
             # wait for agents to communicate
             await asyncio.wait_for(task, timeout=3)
         except asyncio.TimeoutError:
+            # validate the agent1 is running
+            self.assertTrue(self.agent1.is_running)
+            # validate the agent2 is running
+            self.assertTrue(self.agent2.is_running)
             self.orchestrator.stop_agents()
 
-        # validate the agent1 is running
-        self.assertTrue(self.agent1.is_running)
-        # validate the agent2 is running
-        self.assertTrue(self.agent2.is_running)
         # outbox is non-empty
         self.assertTrue(self.agent1.outbox)
         # validate the message is consumed
