@@ -40,7 +40,6 @@ class TestAgentOrchestrator(unittest.IsolatedAsyncioTestCase):
             self.assertTrue(self.agent1.is_running)
             # validate the agent2 is running
             self.assertTrue(self.agent2.is_running)
-            self.orchestrator.stop_agents()
 
         # outbox is non-empty
         self.assertTrue(self.agent1.outbox)

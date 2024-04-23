@@ -1,12 +1,13 @@
 import unittest
 import asyncio
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock, patch, MagicMock
+
 from web3 import AutonomousAgent, ConcreteAgent
 
 
 class TestAutonomousAgent(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
-        self.agent = AutonomousAgent()
+        self.agent = ConcreteAgent("agent1")
         self.event = asyncio.Event()
 
     async def test_handle_message(self):
@@ -16,14 +17,19 @@ class TestAutonomousAgent(unittest.IsolatedAsyncioTestCase):
         await self.agent.handle_message(message)
         handler_mock.assert_called_once_with(message)
 
+    def async_return(self, result):
+        """ Alternative to AsyncMock to mock a callable
+        """
+        func = asyncio.Future()
+        func.set_result(result)
+        return func
     async def test_run_behaviors(self):
-        behavior_mock = AsyncMock(return_value={"type": "test", "content": "Test behavior"})
+        behavior_mock = MagicMock(return_value=self.async_return({"type": "test", "content": "Test behavior"}))
         self.agent.register_behavior(behavior_mock)
         _ = asyncio.create_task(self.agent.run_behaviors())
         await asyncio.sleep(5)
         self.agent.stop_behaviors()
         behavior_mock.assert_called()
-
 
 class TestConcreteAgent(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
